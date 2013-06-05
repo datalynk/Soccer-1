@@ -26,27 +26,32 @@ class Match {
     
     
     public function start() {
-        echo "<div style='position:absolute;right:0px;height:1000px;width:500px;background:#DDD;padding:10px;'>";
-        echo "<h3>" . $this->home_team->getName() . " - " . $this->away_team->getName() . "</h3>";
-        $this->getTeamsLineup();
-        echo "</div>";
+        $match_start_info = array(
+            'home_team' => $this->home_team->getName(),
+            'away_team' => $this->away_team->getName(),
+            'lineups' => $this->getTeamsLineup(),
+        );
         
-        $this->half = 1;
+        return $match_start_info;
+    }
+    
+    
+    public function playMatch() {
+        $match_data = $this->playHalf();
+        $match_result = $this->getMatchResult();
         
-        echo "<h4>" . Kickoff . "</h4>";
-        $this->playHalf();
+        $match_info['events'] = $match_data;
+        $match_info['result'] = $match_result;
         
-        echo "<h4>Halftime</h4>";
-        $this->half = 2;
-        $this->playHalf();
-        
-        $this->getMatchResult();
+        return json_encode($match_info);
     }
     
     
     public function playHalf() {
+        
+        $match_data = array();
 
-        for($r = 1; $r <= self::HALF_TIME; $r++) {
+        for($r = 1; $r <= self::MATCH_TIME; $r++) {
 
             if(rand(0, 10) == 10) {
                 $team = rand(0, 1);
@@ -68,45 +73,30 @@ class Match {
                         break;
                 }
 
-                $min = ($this->half == 2 ? $r + 45 : $r);
-                echo $min . "min: " . $team_player->getName() . $event['event'] . "<br />";
-                echo "<i>" . $event['outcome']['desc'] . "</i><br /><hr />";
+                $match_data['event_' . $r] = array(
+                    'time' => $r, 
+                    'desc' => $team_player->getName() . $event['event'], 
+                    'outcome' => $event['outcome']['desc']
+                );
             }
         }
         
+        return $match_data;
     }
     
     
     public function getMatchResult() {
-        echo $this->home_team->getName() . " <strong>" . $this->home_score 
-                . "</strong> - <strong>" . $this->away_score 
-                . "</strong> " . $this->away_team->getName() 
-                . "<br />";
+        $match_result = array('home_score' => $this->home_score, 'away_score' => $this->away_score);
+        return $match_result;
     }
     
     
     public function getTeamsLineup() {
-        $home_lineup = $this->home_team->getPlayers();
-        
-        echo "<p>Home lineup:</p>";
-        echo "<ul>";
-        
-        foreach($home_lineup as $player) {
-            echo "<li>" . $player->getPosition() . " - " . $player->getName() . "</li>";
-        }
-        echo "</ul>";
-        
-        
-        $away_lineup = $this->away_team->getPlayers();
-
-        echo "<p>Away lineup:</p>";
-        echo "<ul>";
-        
-        foreach($away_lineup as $player) {
-            echo "<li>" . $player->getPosition() . " - " . $player->getName() . "</li>";
-        }
-        echo "</ul>";        
-        
+        $linesups = array(
+            'home' => $this->home_team->getPlayers(),
+            'away' => $this->away_team->getPlayers(),
+        );
+        return $linesups;
     }
     
     

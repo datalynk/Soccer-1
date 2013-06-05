@@ -7,22 +7,15 @@ include_once 'Models/Team.php';
 include_once 'Models/Match.php';
 include_once 'Models/MatchEvents.php';
 
+include_once 'Controllers/IndexController.php';
+include_once 'Controllers/MatchController.php';
+
 try {
-    $home_team = Soccer\Team::generateNewTeam();
-    $away_team = Soccer\Team::generateNewTeam();
-    
-    $match = new Soccer\Match($home_team, $away_team);
-    
-    $match->start();
-    
+    $matchcontroller = new Soccer\MatchController();
+    $matchcontroller->createMatch();
 } catch(Exception $e) {
     echo $e->getMessage();
 }
-
-
-echo "<pre>";
-print_r($team);
-echo "</pre>";
 
 
 ?>
