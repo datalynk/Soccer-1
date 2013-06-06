@@ -19,8 +19,19 @@
         <?php endforeach; ?>
         </div>
         
+        
+        <div id="timer" style="width:30px;height:30px;text-align: center;line-height: 30px;padding: 10px;background:#000;color:#FFF;">0</div>
+        
+        <div id="match" style="width:500px;height:40px;background:green;color:#FFF;text-align:center;font-size:20px;padding: 10px;line-height: 40px;">
+            Read for kickoff
+        </div>
+        
+        <div id="start-match" style="padding:10px;background: yellow;width:100px;">Kick off</div>
+        <div id="pause-match" style="padding:10px;background: blue;width:100px;">Pause match</div>
+        
         <!-- JS -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="js/jquery.timer.js"></script>
         <script src="js/script.js"></script>
         <!-- End JS -->
     </body>

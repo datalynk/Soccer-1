@@ -4,14 +4,24 @@ namespace Soccer;
 
 class League {
     
+    private $id;
     private $teams = array();
     private $name;
     
     const TEAMS_IN_LEAGUE = 12;
     const TEAMS_TO_CHANGE_AFTER_SEASON = 2;
     
-    public function __construct() {
-        ;
+    public function __construct($id) {
+        $this->id = $id;
+    }
+    
+    
+    /**
+     * Loads the teams and name of the season
+     */
+    private function getDataForLeague() {
+        $this->teams = array();
+        $this->name = '';
     }
     
     
@@ -42,9 +52,12 @@ class League {
      * 
      * @return Season
      */
-    public function startNewSeason() {
+    public function startNewSeason($teams = array()) {
+        
         return $season;
     }
+    
+    
     
     
 }

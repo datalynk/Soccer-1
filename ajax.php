@@ -2,9 +2,6 @@
 
 session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 include_once 'libs/Faker/autoload.php';
 
 include_once 'Models/Player.php';
@@ -15,12 +12,10 @@ include_once 'Models/MatchEvents.php';
 include_once 'Controllers/IndexController.php';
 include_once 'Controllers/MatchController.php';
 
-try {
-    $matchcontroller = new Soccer\MatchController();
-    $matchcontroller->createMatch();
-} catch(Exception $e) {
-    echo $e->getMessage();
-}
+$controller = (isset($_REQUEST['controller']) ? 'Soccer\\' . $_REQUEST['controller'] . 'Controller' : 'Soccer\IndexController');
+$controllerobj = new $controller();
 
+$action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'index');
+$controllerobj->$action();
 
 ?>

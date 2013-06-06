@@ -55,7 +55,7 @@ class Team {
     }
     
     
-    public static function generateNewTeam() {
+    public static function generateNewTeam($seed) {
         $players = array();
         
         for($i = 0; $i < self::PLAYERS_IN_TEAM; $i++) {
@@ -63,6 +63,7 @@ class Team {
         }        
         
         $faker = \Faker\Factory::create();
+        $faker->seed($seed);
         $name = $faker->state;
         
         return new Team(1, $name, $players);
